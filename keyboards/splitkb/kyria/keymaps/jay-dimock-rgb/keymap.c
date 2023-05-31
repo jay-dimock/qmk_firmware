@@ -114,7 +114,7 @@ layer_state_t layer_state_set_user(layer_state_t state){
     return state;
 }
 
-void rgb_matrix_inicators_user(void) {
+bool rgb_matrix_inicators_user(void) {
     switch (get_highest_layer(layer_state)) {
         case _BASE:
             rgb_matrix_set_color_all(0,0,255);
@@ -133,12 +133,5 @@ void rgb_matrix_inicators_user(void) {
         default:
             break;
     }
+    return false;
 }
-
-// void keyboard_post_init_user(void) {
-//     // rgblight_enable_noeeprom();
-//     // rgblight_sethsv_noeeprom(HSV_PURPLE);
-//     // rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-//     rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
-//     rgb_matrix_sethsv_noeeprom(HSV_OFF);
-// }
