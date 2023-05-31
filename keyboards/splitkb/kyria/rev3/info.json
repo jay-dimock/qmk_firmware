@@ -199,7 +199,7 @@
             {"flags": 4, "matrix": [2, 5], "x": 14, "y": 41},  // L SW19
             {"flags": 4, "matrix": [2, 6], "x": 0, "y": 41},   // L SW20
             {"flags": 4, "matrix": [1, 1], "x": 72, "y": 23},  // L SW07
-            {"flags": 4, "matrix": [1, 2], "x": 58, "y": 19},  // L SW08
+            {"flags": 4, "matrix": [1, 2], "x": 58, "y": 19},  // L SW08 J or K
             {"flags": 4, "matrix": [1, 3], "x": 43, "y": 15},  // L SW09
             {"flags": 4, "matrix": [1, 4], "x": 29, "y": 19},  // L SW10
             {"flags": 4, "matrix": [1, 5], "x": 14, "y": 26},  // L SW11
@@ -230,7 +230,7 @@
             {"flags": 4, "matrix": [6, 5], "x": 210, "y": 41}, // R SW19
             {"flags": 4, "matrix": [6, 6], "x": 224, "y": 41}, // R SW20
             {"flags": 4, "matrix": [5, 1], "x": 152, "y": 23}, // R SW07
-            {"flags": 4, "matrix": [5, 2], "x": 166, "y": 19}, // R SW08
+            {"flags": 4, "matrix": [5, 2], "x": 166, "y": 19}, // R SW08 J or K
             {"flags": 4, "matrix": [5, 3], "x": 181, "y": 15}, // R SW09
             {"flags": 4, "matrix": [5, 4], "x": 195, "y": 19}, // R SW10
             {"flags": 4, "matrix": [5, 5], "x": 210, "y": 26}, // R SW11

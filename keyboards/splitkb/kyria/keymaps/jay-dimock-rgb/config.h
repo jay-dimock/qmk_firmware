@@ -1,8 +1,11 @@
 #pragma once
 
-#    undef RGBLIGHT_LIMIT_VAL
-#    define RGBLIGHT_LIMIT_VAL 120
-#    define RGBLIGHT_DEFAULT_HUE 180
-#    define RGBLIGHT_DEFAULT_SAT UINT8_MAX
-#    define RGBLIGHT_DEFAULT_VAL RGBLIGHT_LIMIT_VAL
-#    define RGBLIGHT_SLEEP
+#define RGB_MATRIX_MAXIMUM_BRIGHTNESS 128
+#define RGB_MATRIX_DEFAULT_HUE 180
+
+// Enable Light Layers implementation
+#define RGBLIGHT_LAYERS
+// Allow Light Layers to override RGB off configuration
+#define RGBLIGHT_LAYERS_OVERRIDE_RGB_OFF
+
+#define ENABLE_RGB_MATRIX_SOLID_COLOR
