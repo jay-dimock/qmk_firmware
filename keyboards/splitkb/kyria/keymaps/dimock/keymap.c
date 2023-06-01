@@ -114,23 +114,68 @@ layer_state_t layer_state_set_user(layer_state_t state){
     return state;
 }
 
-bool rgb_matrix_inicators_user(void) {
+bool set_rgb(int index, uint8_t hue, uint8_t sat, uint8_t val){
+    // Using HSV and then converting to RGB allows the brightness 
+    // to be limited (important when using the WS2812 driver).
+    HSV hsv = {hue, sat, val};
+    if (hsv.v > rgb_matrix_get_val()) {
+        hsv.v = rgb_matrix_get_val();
+    }
+    RGB rgb = hsv_to_rgb(hsv);
+    rgb_matrix_set_color(index, rgb.r, rgb.g, rgb.b);
+    return false;
+}
+
+bool set_rgb_all(uint8_t hue, uint8_t sat, uint8_t val){
+    // Using HSV and then converting to RGB allows the brightness 
+    // to be limited (important when using the WS2812 driver).
+    HSV hsv = {hue, sat, val};
+    if (hsv.v > rgb_matrix_get_val()) {
+        hsv.v = rgb_matrix_get_val();
+    }
+    RGB rgb = hsv_to_rgb(hsv);
+    rgb_matrix_set_color_all(rgb.r, rgb.g, rgb.b);
+    return false;
+}
+
+bool rgb_matrix_indicators_user(void) {
     switch (get_highest_layer(layer_state)) {
         case _BASE:
-            rgb_matrix_set_color_all(0,0,255);
+            set_rgb_all(HSV_BLUE);
+            set_rgb(14, HSV_GREEN); // F
+            set_rgb(45, HSV_GREEN); // J
             break;
         case _SYMBOLS:
+            set_rgb_all(HSV_RED);
             break;
         case _NUMBERS:
-            rgb_matrix_set_color_all(0,255,0);
+            set_rgb_all(HSV_BLACK);
+            set_rgb(51, HSV_YELLOW); // 7
+            set_rgb(52, HSV_YELLOW); // 8
+            set_rgb(53, HSV_YELLOW); // 9
+            set_rgb(44, HSV_YELLOW); // 0
+            set_rgb(45, HSV_YELLOW); // 1
+            set_rgb(46, HSV_YELLOW); // 2
+            set_rgb(47, HSV_YELLOW); // 3
+            set_rgb(39, HSV_YELLOW); // 4
+            set_rgb(40, HSV_YELLOW); // 5
+            set_rgb(41, HSV_YELLOW); // 6
             break;
         case _FKEYS:
+            set_rgb_all(HSV_TEAL);
             break;
         case _NAV:
+            set_rgb_all(HSV_BLACK);
+            set_rgb(52, HSV_GREEN); // up arrow
+            set_rgb(45, HSV_GREEN); // left arrow
+            set_rgb(46, HSV_GREEN); // down arrow
+            set_rgb(47, HSV_GREEN); // right arrow
             break;
         case _SPECIAL:
+            set_rgb_all(HSV_PURPLE);
             break;
         default:
+            set_rgb_all(HSV_BLACK);
             break;
     }
     return false;
