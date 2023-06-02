@@ -118,6 +118,9 @@ bool set_rgb(int index, uint8_t hue, uint8_t sat, uint8_t val){
     // Using HSV and then converting to RGB allows the brightness 
     // to be limited (important when using the WS2812 driver).
     HSV hsv = {hue, sat, val};
+    // if (hsv.v > rgb_matrix_get_val()) {
+    //     hsv.v = rgb_matrix_get_val();
+    // }
     if (hsv.v > 0) {
         hsv.v = 128;
     }
@@ -130,6 +133,9 @@ bool set_rgb_all(uint8_t hue, uint8_t sat, uint8_t val){
     // Using HSV and then converting to RGB allows the brightness 
     // to be limited (important when using the WS2812 driver).
     HSV hsv = {hue, sat, val};
+    // if (hsv.v > rgb_matrix_get_val()) {
+    //     hsv.v = rgb_matrix_get_val();
+    // }
     if (hsv.v > 0) {
         hsv.v = 128;
     }
@@ -139,107 +145,99 @@ bool set_rgb_all(uint8_t hue, uint8_t sat, uint8_t val){
 }
 
 bool rgb_matrix_indicators_user(void) {
-    bool caps = host_keyboard_led_state().caps_lock;
-    if (caps) {
-        set_rgb_all(HSV_BLACK);
-        set_rgb(55, HSV_RED); // caps lock
-        set_rgb(12, HSV_RED); // Lshift
-        set_rgb(43, HSV_RED); // Rshift
-    } else {
-        set_rgb(34, HSV_BLACK); // Num (R thumb 4)
-        switch (get_highest_layer(layer_state)) {
-            case _BASE:
-                set_rgb_all(HSV_BLUE);
-                set_rgb(14, HSV_WHITE); // F
-                set_rgb(45, HSV_WHITE); // J
-                set_rgb(34, HSV_PURPLE); // Num (R thumb 4)
-                set_rgb(1, HSV_TEAL); // Enter (L thumb 2)
-                set_rgb(2, HSV_PURPLE); // Back/Num (L thumb 3)
-                set_rgb(3, HSV_ORANGE); // L Thumb 4
-                break;
-            case _SYMBOLS:
-                set_rgb_all(HSV_ORANGE);
-                set_rgb(8, HSV_BLACK); // N
-                set_rgb(7, HSV_BLACK); // B
-                set_rgb(51, HSV_BLACK); // U
-                break;
-            case _NUMBERS:
-                set_rgb_all(HSV_BLACK);
-                set_rgb(51, HSV_PURPLE); // 7
-                set_rgb(52, HSV_PURPLE); // 8
-                set_rgb(53, HSV_PURPLE); // 9
-                set_rgb(44, HSV_PURPLE); // 0
-                set_rgb(45, HSV_PURPLE); // 1
-                set_rgb(46, HSV_PURPLE); // 2
-                set_rgb(47, HSV_PURPLE); // 3
-                set_rgb(39, HSV_PURPLE); // 4
-                set_rgb(40, HSV_PURPLE); // 5
-                set_rgb(41, HSV_PURPLE); // 6
-                set_rgb(34, HSV_PURPLE); // Num (R thumb 4)
-                break;
-            case _FKEYS:
-                set_rgb_all(HSV_BLACK);
-                set_rgb(19, HSV_RED); // EEPROM reset
-                set_rgb(51, HSV_TEAL); // F7
-                set_rgb(52, HSV_TEAL); // F8
-                set_rgb(53, HSV_TEAL); // F9
-                set_rgb(54, HSV_TEAL); // F10
-                set_rgb(45, HSV_TEAL); // F1
-                set_rgb(46, HSV_TEAL); // F2
-                set_rgb(47, HSV_TEAL); // F3
-                set_rgb(48, HSV_TEAL); // F11
-                set_rgb(39, HSV_TEAL); // F4
-                set_rgb(40, HSV_TEAL);; // F5
-                set_rgb(41, HSV_TEAL);; // F6
-                set_rgb(42, HSV_TEAL);; // F12
-                break;
-            case _NAV:
-                set_rgb_all(HSV_BLACK);
-                set_rgb(52, HSV_TEAL); // up arrow
-                set_rgb(45, HSV_TEAL); // left arrow
-                set_rgb(46, HSV_TEAL); // down arrow
-                set_rgb(47, HSV_TEAL); // right arrow
-                set_rgb(50, HSV_WHITE); // home
-                set_rgb(44, HSV_WHITE); // end
-                set_rgb(54, HSV_WHITE); // page up
-                set_rgb(48, HSV_WHITE); // page down
-                break;
-            case _SPECIAL:
-                set_rgb_all(HSV_BLACK);
-                set_rgb(22, HSV_PURPLE); // win
-                set_rgb(11, HSV_PURPLE); // ctrl+prtscr
-                set_rgb(10, HSV_PURPLE); // prtscr
-                set_rgb(20, HSV_PURPLE); // esc
-                set_rgb(50, HSV_WHITE); // alt ctrl del
-                set_rgb(42, HSV_PURPLE); // F12
-                set_rgb(15, HSV_RED); // del
-                set_rgb(55, HSV_PURPLE); // caps lock
-                break;
-            default:
-                set_rgb_all(HSV_BLACK);
-                break;
-        }
+    set_rgb(34, HSV_BLACK); // Num (R thumb 4)
+    switch (get_highest_layer(layer_state)) {
+        case _BASE:
+            set_rgb_all(HSV_BLUE);
+            set_rgb(14, HSV_WHITE); // F
+            set_rgb(45, HSV_WHITE); // J
+            set_rgb(34, HSV_PURPLE); // Num (R thumb 4)
+            set_rgb(1, HSV_TEAL); // Enter (L thumb 2)
+            set_rgb(2, HSV_PURPLE); // Back/Num (L thumb 3)
+            set_rgb(3, HSV_ORANGE); // L Thumb 4
+            break;
+        case _SYMBOLS:
+            set_rgb_all(HSV_ORANGE);
+            set_rgb(8, HSV_BLACK); // N
+            set_rgb(7, HSV_BLACK); // B
+            set_rgb(51, HSV_BLACK); // U
+            break;
+        case _NUMBERS:
+            set_rgb_all(HSV_BLACK);
+            set_rgb(51, HSV_PURPLE); // 7
+            set_rgb(52, HSV_PURPLE); // 8
+            set_rgb(53, HSV_PURPLE); // 9
+            set_rgb(44, HSV_PURPLE); // 0
+            set_rgb(45, HSV_PURPLE); // 1
+            set_rgb(46, HSV_PURPLE); // 2
+            set_rgb(47, HSV_PURPLE); // 3
+            set_rgb(39, HSV_PURPLE); // 4
+            set_rgb(40, HSV_PURPLE); // 5
+            set_rgb(41, HSV_PURPLE); // 6
+            set_rgb(34, HSV_PURPLE); // Num (R thumb 4)
+            break;
+        case _FKEYS:
+            set_rgb_all(HSV_BLACK);
+            set_rgb(19, HSV_RED); // EEPROM reset
+            set_rgb(51, HSV_TEAL); // F7
+            set_rgb(52, HSV_TEAL); // F8
+            set_rgb(53, HSV_TEAL); // F9
+            set_rgb(54, HSV_TEAL); // F10
+            set_rgb(45, HSV_TEAL); // F1
+            set_rgb(46, HSV_TEAL); // F2
+            set_rgb(47, HSV_TEAL); // F3
+            set_rgb(48, HSV_TEAL); // F11
+            set_rgb(39, HSV_TEAL); // F4
+            set_rgb(40, HSV_TEAL);; // F5
+            set_rgb(41, HSV_TEAL);; // F6
+            set_rgb(42, HSV_TEAL);; // F12
+            break;
+        case _NAV:
+            set_rgb_all(HSV_BLACK);
+            set_rgb(52, HSV_TEAL); // up arrow
+            set_rgb(45, HSV_TEAL); // left arrow
+            set_rgb(46, HSV_TEAL); // down arrow
+            set_rgb(47, HSV_TEAL); // right arrow
+            set_rgb(50, HSV_WHITE); // home
+            set_rgb(44, HSV_WHITE); // end
+            set_rgb(54, HSV_WHITE); // page up
+            set_rgb(48, HSV_WHITE); // page down
+            break;
+        case _SPECIAL:
+            set_rgb_all(HSV_BLACK);
+            set_rgb(22, HSV_PURPLE); // win
+            set_rgb(11, HSV_PURPLE); // ctrl+prtscr
+            set_rgb(10, HSV_PURPLE); // prtscr
+            set_rgb(20, HSV_PURPLE); // esc
+            set_rgb(50, HSV_WHITE); // alt ctrl del
+            set_rgb(42, HSV_PURPLE); // F12
+            set_rgb(15, HSV_RED); // del
+            set_rgb(55, HSV_PURPLE); // caps lock
+            break;
+        default:
+            set_rgb_all(HSV_BLACK);
+            break;
+    }
 
-        // these are virtually the same on all layers
-        set_rgb(12, HSV_GREEN); // Lshift
-        set_rgb(18, HSV_GREEN); // LCtrl
-        set_rgb(43, HSV_GREEN); // Rshift
-        set_rgb(49, HSV_GREEN); // RCtrl/'
-        set_rgb(35, HSV_GREEN); // Alt (R thumb 5)
-        set_rgb(33, HSV_GREEN); // Space (R thumb 3)
-        set_rgb(32, HSV_GREEN); // Tab (R thumb 2)
-        set_rgb(5, HSV_BLACK); // L encoder
-        set_rgb(36, HSV_BLACK); // R encoder
+    // these are virtually the same on all layers
+    set_rgb(12, HSV_GREEN); // Lshift
+    set_rgb(18, HSV_GREEN); // LCtrl
+    set_rgb(43, HSV_GREEN); // Rshift
+    set_rgb(49, HSV_GREEN); // RCtrl/'
+    set_rgb(35, HSV_GREEN); // Alt (R thumb 5)
+    set_rgb(33, HSV_GREEN); // Space (R thumb 3)
+    set_rgb(32, HSV_GREEN); // Tab (R thumb 2)
+    set_rgb(5, HSV_BLACK); // L encoder
+    set_rgb(36, HSV_BLACK); // R encoder
 
-        if(get_highest_layer(layer_state) != _BASE) {
-            set_rgb(6, HSV_BLACK); // L upper thumb
-            set_rgb(37, HSV_BLACK); // R upper thumb
-            set_rgb(1, HSV_GREEN); // Enter (L thumb 2)
-            set_rgb(2, HSV_GREEN); // Back (L thumb 3)
-            set_rgb(3, HSV_BLACK); // Sym (L Thumb 4)
-            set_rgb(4, HSV_BLACK); // L Thumb 5
-            set_rgb(24, HSV_BLACK); // Fn
-        }
+    if(get_highest_layer(layer_state) != _BASE) {
+        set_rgb(6, HSV_BLACK); // L upper thumb
+        set_rgb(37, HSV_BLACK); // R upper thumb
+        set_rgb(1, HSV_GREEN); // Enter (L thumb 2)
+        set_rgb(2, HSV_GREEN); // Back (L thumb 3)
+        set_rgb(3, HSV_BLACK); // Sym (L Thumb 4)
+        set_rgb(4, HSV_BLACK); // L Thumb 5
+        set_rgb(24, HSV_BLACK); // Fn
     }
     return false;
 }
