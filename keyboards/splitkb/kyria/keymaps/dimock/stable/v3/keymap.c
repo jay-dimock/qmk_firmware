@@ -32,18 +32,18 @@ enum layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_BASE] = LAYOUT(MO(3), KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, CW_TOGG, 
             KC_LCTL, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, RCTL_T(KC_QUOT), 
-            KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, LCTL(KC_S), KC_NO, KC_NO, KC_PSTE, KC_N, KC_M, KC_COMM, KC_DOT, KC_EQL, KC_RSFT, 
-            KC_NO, MO(1), LT(2,KC_BSPC), LT(4,KC_ENT), KC_COPY, KC_CUT, LT(5,KC_TAB ), KC_SPC, TG(2), KC_RALT),
+            KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_NO, KC_NO, KC_NO, KC_NO, KC_N, KC_M, KC_COMM, KC_DOT, KC_EQL, KC_RSFT, 
+            KC_NO, MO(1), LT(2,KC_BSPC), LT(4,KC_ENT), KC_NO, KC_NO, LT(5,KC_TAB ), KC_SPC, TG(2), KC_RALT),
 
   [_SYMBOLS] = LAYOUT(KC_NO, KC_PSLS, KC_EXLM, KC_QUES, KC_HASH, KC_PAST, KC_DLR, KC_NO, KC_AMPR, KC_PIPE, KC_BSLS, KC_GRV, 
             KC_TRNS, KC_AT, KC_LT, KC_LBRC, KC_LPRN, KC_LCBR, KC_RCBR, KC_RPRN, KC_RBRC, KC_GT, KC_TRNS, KC_TRNS, 
             KC_TRNS, KC_PERC, KC_CIRC, RCTL(KC_SLSH), KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_UNDS, KC_PMNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, 
-            KC_NO, KC_NO, KC_BSPC, KC_ENT, KC_NO, KC_TAB, TO(0), KC_TRNS, KC_TRNS, KC_RALT),
+            KC_NO, KC_NO, KC_BSPC, KC_ENT, KC_NO, KC_NO, TO(0), KC_TRNS, KC_TRNS, KC_RALT),
 
   [_NUMBERS] = LAYOUT(KC_NO, KC_SLSH, KC_EXLM, KC_QUES, KC_HASH, KC_PDOT, KC_DLR, KC_P7, KC_P8, KC_P9, KC_BSLS, KC_GRV, 
             KC_TRNS, KC_AT, KC_LT, KC_LBRC, KC_LPRN, KC_LCBR, KC_P0, KC_P1, KC_P2, KC_P3, KC_SCLN, KC_TRNS, 
             KC_TRNS, KC_PERC, KC_CIRC, KC_NO, KC_NO, KC_PCMM, KC_NO, KC_NO, KC_NO, KC_NO, KC_MINS, KC_P4, KC_P5, KC_P6, KC_EQL, KC_TRNS, 
-            KC_NO, KC_NO, KC_BSPC, KC_ENT, KC_NO, KC_TAB, TO(0), KC_SPC, KC_TRNS, KC_RALT),
+            KC_NO, KC_NO, KC_BSPC, KC_ENT, KC_NO, KC_NO, TO(0), KC_SPC, KC_TRNS, KC_RALT),
             
   [_FKEYS] = LAYOUT(KC_TRNS, KC_NO, KC_NO, KC_NO, KC_NO, EE_CLR, KC_NO, KC_F7, KC_F8, KC_F9, KC_F10, KC_NO, 
             KC_LCTL, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_F1, KC_F2, KC_F3, KC_F11, KC_RCTL, 
@@ -53,7 +53,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_NAV] = LAYOUT(KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_HOME, KC_NO, KC_UP, KC_NO, KC_PGUP, KC_NO, 
             KC_LCTL, KC_NO, KC_NO, KC_DEL, KC_ENT, KC_TAB, KC_END, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, KC_RCTL, 
             KC_TRNS, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_TRNS, 
-            KC_NO, KC_NO, KC_BSPC, KC_ENT, KC_NO, KC_TAB, TO(0), KC_SPC, KC_NO, KC_RALT),
+            KC_NO, KC_NO, KC_BSPC, KC_ENT, KC_NO, KC_NO, TO(0), KC_SPC, KC_NO, KC_RALT),
 
   [_SPECIAL] = LAYOUT(KC_NO, KC_APP, KC_LGUI, KC_NO, KC_ESC, KC_NO, LCA(KC_DEL), KC_NO, KC_NO, KC_NO, KC_NO, KC_CAPS, 
             KC_LCTL, KC_NO, KC_NO, KC_DEL, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_RCTL, 
@@ -140,17 +140,11 @@ bool set_rgb_all(uint8_t hue, uint8_t sat, uint8_t val){
 
 bool rgb_matrix_indicators_user(void) {
     bool caps = host_keyboard_led_state().caps_lock;
-    bool numlock = host_keyboard_led_state().num_lock;
-    if (caps || is_caps_word_on()) {
+    if (caps) {
         set_rgb_all(HSV_BLACK);
         set_rgb(55, HSV_RED); // caps lock
         set_rgb(12, HSV_RED); // Lshift
         set_rgb(43, HSV_RED); // Rshift
-    } else if (!numlock) {
-        // I pretty much never want numlock off. 
-        // So if it IS off, make sure that is obvious.
-        set_rgb_all(HSV_BLACK);
-        set_rgb(34, HSV_RED); // toggle number layer
     } else {
         set_rgb(34, HSV_BLACK); // Num (R thumb 4)
         switch (get_highest_layer(layer_state)) {
@@ -158,41 +152,30 @@ bool rgb_matrix_indicators_user(void) {
                 set_rgb_all(HSV_BLUE);
                 set_rgb(14, HSV_WHITE); // F
                 set_rgb(45, HSV_WHITE); // J
-                set_rgb(34, HSV_MAGENTA); // Num (R thumb 4)                    
-                set_rgb(32, HSV_PURPLE); // Tab (R thumb 2)
-                set_rgb(31, HSV_RED); // cut (R thumb 1)
-                set_rgb(0, HSV_GREEN); // copy (L thumb 1)
-                set_rgb(1, HSV_GREEN); // Enter (L thumb 2)
-                set_rgb(2, HSV_MAGENTA); // Back/Num (L thumb 3)
+                set_rgb(34, HSV_PURPLE); // Num (R thumb 4)
+                set_rgb(1, HSV_TEAL); // Enter (L thumb 2)
+                set_rgb(2, HSV_PURPLE); // Back/Num (L thumb 3)
                 set_rgb(3, HSV_ORANGE); // L Thumb 4
                 break;
             case _SYMBOLS:
                 set_rgb_all(HSV_ORANGE);
-                set_rgb(8, HSV_BLACK); // V
+                set_rgb(8, HSV_BLACK); // N
                 set_rgb(7, HSV_BLACK); // B
                 set_rgb(51, HSV_BLACK); // U
-                set_rgb(31, HSV_MAGENTA); // tab (R thumb 1)
                 break;
             case _NUMBERS:
-                set_rgb_all(HSV_ORANGE);
-                set_rgb(8, HSV_BLACK); // V
-                set_rgb(9, HSV_BLACK); // C
-                set_rgb(50, HSV_SPRINGGREEN); // $
-                set_rgb(38, HSV_SPRINGGREEN); // -_
-                set_rgb(19, HSV_SPRINGGREEN); // .
-                set_rgb(7, HSV_SPRINGGREEN); // ,
-                set_rgb(51, HSV_MAGENTA); // 7
-                set_rgb(52, HSV_MAGENTA); // 8
-                set_rgb(53, HSV_MAGENTA); // 9
-                set_rgb(44, HSV_MAGENTA); // 0
-                set_rgb(45, HSV_MAGENTA); // 1
-                set_rgb(46, HSV_MAGENTA); // 2
-                set_rgb(47, HSV_MAGENTA); // 3
-                set_rgb(39, HSV_MAGENTA); // 4
-                set_rgb(40, HSV_MAGENTA); // 5
-                set_rgb(41, HSV_MAGENTA); // 6
-                set_rgb(34, HSV_MAGENTA); // Num (R thumb 4)
-                set_rgb(31, HSV_MAGENTA); // tab (R thumb 1)
+                set_rgb_all(HSV_BLACK);
+                set_rgb(51, HSV_PURPLE); // 7
+                set_rgb(52, HSV_PURPLE); // 8
+                set_rgb(53, HSV_PURPLE); // 9
+                set_rgb(44, HSV_PURPLE); // 0
+                set_rgb(45, HSV_PURPLE); // 1
+                set_rgb(46, HSV_PURPLE); // 2
+                set_rgb(47, HSV_PURPLE); // 3
+                set_rgb(39, HSV_PURPLE); // 4
+                set_rgb(40, HSV_PURPLE); // 5
+                set_rgb(41, HSV_PURPLE); // 6
+                set_rgb(34, HSV_PURPLE); // Num (R thumb 4)
                 break;
             case _FKEYS:
                 set_rgb_all(HSV_BLACK);
@@ -220,7 +203,6 @@ bool rgb_matrix_indicators_user(void) {
                 set_rgb(44, HSV_WHITE); // end
                 set_rgb(54, HSV_WHITE); // page up
                 set_rgb(48, HSV_WHITE); // page down
-                set_rgb(31, HSV_MAGENTA); // tab (R thumb 1)
                 break;
             case _SPECIAL:
                 set_rgb_all(HSV_BLACK);
@@ -245,13 +227,13 @@ bool rgb_matrix_indicators_user(void) {
         set_rgb(49, HSV_GREEN); // RCtrl/'
         set_rgb(35, HSV_GREEN); // Alt (R thumb 5)
         set_rgb(33, HSV_GREEN); // Space (R thumb 3)
+        set_rgb(32, HSV_GREEN); // Tab (R thumb 2)
         set_rgb(5, HSV_BLACK); // L encoder
         set_rgb(36, HSV_BLACK); // R encoder
 
         if(get_highest_layer(layer_state) != _BASE) {
             set_rgb(6, HSV_BLACK); // L upper thumb
             set_rgb(37, HSV_BLACK); // R upper thumb
-            set_rgb(32, HSV_BLUE); // TO(0) (R thumb 2)
             set_rgb(1, HSV_GREEN); // Enter (L thumb 2)
             set_rgb(2, HSV_GREEN); // Back (L thumb 3)
             set_rgb(3, HSV_BLACK); // Sym (L Thumb 4)

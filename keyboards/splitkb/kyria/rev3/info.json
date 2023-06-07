@@ -189,7 +189,7 @@
             {"flags": 4, "matrix": [3, 0], "x": 94, "y": 64},  // L SW21 LThumb 1 - 0 (closest to TRRS jacks)
             {"flags": 4, "matrix": [3, 5], "x": 79, "y": 60},  // L SW22 LThumb 2 - 1
             {"flags": 4, "matrix": [3, 1], "x": 65, "y": 53},  // L SW23 LThumb 3 - 2
-            {"flags": 4, "matrix": [3, 2], "x": 51, "y": 49},  // L SW24 LThumb 4 - 3
+            {"flags": 4, "matrix": [3, 2], "x": 51, "y": 49},  // L SW24 Sym (LThumb 4) - 3
             {"flags": 4, "matrix": [3, 4], "x": 36, "y": 49},  // L SW25 LThumb 5 - 4
             {"flags": 4, "matrix": [2, 0], "x": 101, "y": 49}, // L SW13 L encoder - 5
             {"flags": 4, "matrix": [3, 3], "x": 87, "y": 45},  // L SW14 L upper thumb - 6
@@ -230,7 +230,7 @@
             {"flags": 4, "matrix": [6, 0], "x": 123, "y": 49}, // R SW13 R encoder - 36
             {"flags": 4, "matrix": [7, 3], "x": 137, "y": 45}, // R SW14 R upper thumb - 37
 
-            {"flags": 4, "matrix": [6, 1], "x": 152, "y": 38}, // R SW15 N - 37
+            {"flags": 4, "matrix": [6, 1], "x": 152, "y": 38}, // R SW15 N - 38
             {"flags": 4, "matrix": [6, 2], "x": 166, "y": 34}, // R SW16 M - 39
             {"flags": 4, "matrix": [6, 3], "x": 181, "y": 30}, // R SW17 , - 40
             {"flags": 4, "matrix": [6, 4], "x": 195, "y": 34}, // R SW18 . - 41
