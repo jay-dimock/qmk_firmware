@@ -32,8 +32,8 @@ enum layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_BASE] = LAYOUT(MO(3), KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, CW_TOGG, 
             KC_LCTL, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, RCTL_T(KC_QUOT), 
-            KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, LCTL(KC_S), KC_NO, KC_NO, KC_PSTE, KC_N, KC_M, KC_COMM, KC_DOT, KC_EQL, KC_RSFT, 
-            KC_NO, MO(1), LT(2,KC_BSPC), LT(4,KC_ENT), KC_COPY, KC_CUT, LT(5,KC_TAB ), KC_SPC, TG(2), KC_RALT),
+            KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, LCTL(KC_S), LT(4,KC_BTN2), KC_MS_BTN1, LCTL(KC_V), KC_N, KC_M, KC_COMM, KC_DOT, KC_EQL, KC_RSFT, 
+            KC_NO, MO(1), LT(2,KC_BSPC), LT(4,KC_ENT), LCTL(KC_C), LCTL(KC_X), LT(5,KC_TAB ), KC_SPC, TG(2), KC_RALT),
 
   [_SYMBOLS] = LAYOUT(KC_NO, KC_PSLS, KC_EXLM, KC_QUES, KC_HASH, KC_PAST, KC_DLR, KC_NO, KC_AMPR, KC_PIPE, KC_BSLS, KC_GRV, 
             KC_TRNS, KC_AT, KC_LT, KC_LBRC, KC_LPRN, KC_LCBR, KC_RCBR, KC_RPRN, KC_RBRC, KC_GT, KC_TRNS, KC_TRNS, 
@@ -52,8 +52,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_NAV] = LAYOUT(KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_HOME, KC_NO, KC_UP, KC_NO, KC_PGUP, KC_NO, 
             KC_LCTL, KC_NO, KC_NO, KC_DEL, KC_ENT, KC_TAB, KC_END, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, KC_RCTL, 
-            KC_TRNS, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_TRNS, 
-            KC_NO, KC_NO, KC_BSPC, KC_ENT, KC_NO, KC_TAB, TO(0), KC_SPC, KC_NO, KC_RALT),
+            KC_TRNS, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_ENT, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_TRNS, 
+            KC_NO, KC_NO, KC_BSPC, KC_NO, KC_ENT, KC_TAB, TO(0), KC_SPC, KC_NO, KC_RALT),
 
   [_SPECIAL] = LAYOUT(KC_NO, KC_APP, KC_LGUI, KC_NO, KC_ESC, KC_NO, LCA(KC_DEL), KC_NO, KC_NO, KC_NO, KC_NO, KC_CAPS, 
             KC_LCTL, KC_NO, KC_NO, KC_DEL, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_RCTL, 
@@ -94,16 +94,24 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
         // Volume control
         if (clockwise) {
-            tap_code(KC_VOLU);
+            tap_code(KC_MS_RIGHT);
         } else {
-            tap_code(KC_VOLD);
+            tap_code(KC_MS_LEFT);
         }
     } else if (index == 1) {
-        // Page up/Page down
+        // mouse up/down, mouse wheel up/down
         if (clockwise) {
-            tap_code(KC_PGDN);
+            if(get_highest_layer(layer_state) == _NAV) {
+                tap_code(KC_MS_WH_DOWN);
+            } else {
+                tap_code(KC_MS_DOWN);
+            }
         } else {
-            tap_code(KC_PGUP);
+             if(get_highest_layer(layer_state) == _NAV) {
+                tap_code(KC_MS_WH_UP);
+            } else {
+                tap_code(KC_MS_UP);
+            }
         }
     }
     return false;
@@ -153,25 +161,35 @@ bool rgb_matrix_indicators_user(void) {
         set_rgb(34, HSV_RED); // toggle number layer
     } else {
         set_rgb(34, HSV_BLACK); // Num (R thumb 4)
+        set_rgb(3, HSV_BLACK); // Sym (L Thumb 4)
+        set_rgb(24, HSV_BLACK); // Fn 
+        set_rgb(32, HSV_GREEN); // TO(0) (R thumb 2)
         switch (get_highest_layer(layer_state)) {
             case _BASE:
-                set_rgb_all(HSV_BLUE);
+                set_rgb_all(HSV_GREEN);
                 set_rgb(14, HSV_WHITE); // F
                 set_rgb(45, HSV_WHITE); // J
+                set_rgb(24, HSV_TEAL); // Fn
                 set_rgb(34, HSV_MAGENTA); // Num (R thumb 4)                    
-                set_rgb(32, HSV_PURPLE); // Tab (R thumb 2)
                 set_rgb(31, HSV_RED); // cut (R thumb 1)
-                set_rgb(0, HSV_GREEN); // copy (L thumb 1)
-                set_rgb(1, HSV_GREEN); // Enter (L thumb 2)
+                set_rgb(1, HSV_WHITE); // Enter (L thumb 2)
                 set_rgb(2, HSV_MAGENTA); // Back/Num (L thumb 3)
                 set_rgb(3, HSV_ORANGE); // L Thumb 4
+                set_rgb(55, HSV_PURPLE); // caps word
                 break;
             case _SYMBOLS:
                 set_rgb_all(HSV_ORANGE);
-                set_rgb(8, HSV_BLACK); // V
+                set_rgb(8, HSV_BLACK); // V '
                 set_rgb(7, HSV_BLACK); // B
                 set_rgb(51, HSV_BLACK); // U
                 set_rgb(31, HSV_MAGENTA); // tab (R thumb 1)
+                set_rgb(34, HSV_BLACK); // Num (R thumb 4)
+                set_rgb(3, HSV_BLACK); // Sym (L Thumb 4)
+                set_rgb(0, HSV_BLACK); // enter (L thumb 1)
+                set_rgb(31, HSV_BLACK); // tab (R thumb 1) 
+                set_rgb(24, HSV_BLACK); // Fn 
+                set_rgb(1, HSV_WHITE); // Enter (L thumb 2)
+                set_rgb(2, HSV_GREEN); // Back (L thumb 3)
                 break;
             case _NUMBERS:
                 set_rgb_all(HSV_ORANGE);
@@ -193,6 +211,12 @@ bool rgb_matrix_indicators_user(void) {
                 set_rgb(41, HSV_MAGENTA); // 6
                 set_rgb(34, HSV_MAGENTA); // Num (R thumb 4)
                 set_rgb(31, HSV_MAGENTA); // tab (R thumb 1)
+                set_rgb(3, HSV_BLACK); // Sym (L Thumb 4)
+                set_rgb(0, HSV_BLACK); // enter (L thumb 1)
+                set_rgb(31, HSV_TEAL); // tab (R thumb 1)  
+                set_rgb(24, HSV_BLACK); // Fn 
+                set_rgb(1, HSV_WHITE); // Enter (L thumb 2)
+                set_rgb(2, HSV_GREEN); // Back (L thumb 3)
                 break;
             case _FKEYS:
                 set_rgb_all(HSV_BLACK);
@@ -209,6 +233,7 @@ bool rgb_matrix_indicators_user(void) {
                 set_rgb(40, HSV_TEAL);; // F5
                 set_rgb(41, HSV_TEAL);; // F6
                 set_rgb(42, HSV_TEAL);; // F12
+                set_rgb(24, HSV_TEAL); // Fn
                 break;
             case _NAV:
                 set_rgb_all(HSV_BLACK);
@@ -220,7 +245,8 @@ bool rgb_matrix_indicators_user(void) {
                 set_rgb(44, HSV_WHITE); // end
                 set_rgb(54, HSV_WHITE); // page up
                 set_rgb(48, HSV_WHITE); // page down
-                set_rgb(31, HSV_MAGENTA); // tab (R thumb 1)
+                set_rgb(0, HSV_MAGENTA); // enter (L thumb 1)
+                set_rgb(31, HSV_MAGENTA); // tab (R thumb 1)  
                 break;
             case _SPECIAL:
                 set_rgb_all(HSV_BLACK);
@@ -240,9 +266,9 @@ bool rgb_matrix_indicators_user(void) {
 
         // these are virtually the same on all layers
         set_rgb(12, HSV_GREEN); // Lshift
-        set_rgb(18, HSV_GREEN); // LCtrl
+        set_rgb(18, HSV_WHITE); // LCtrl
         set_rgb(43, HSV_GREEN); // Rshift
-        set_rgb(49, HSV_GREEN); // RCtrl/'
+        set_rgb(49, HSV_WHITE); // RCtrl/'
         set_rgb(35, HSV_GREEN); // Alt (R thumb 5)
         set_rgb(33, HSV_GREEN); // Space (R thumb 3)
         set_rgb(5, HSV_BLACK); // L encoder
@@ -251,12 +277,7 @@ bool rgb_matrix_indicators_user(void) {
         if(get_highest_layer(layer_state) != _BASE) {
             set_rgb(6, HSV_BLACK); // L upper thumb
             set_rgb(37, HSV_BLACK); // R upper thumb
-            set_rgb(32, HSV_BLUE); // TO(0) (R thumb 2)
-            set_rgb(1, HSV_GREEN); // Enter (L thumb 2)
-            set_rgb(2, HSV_GREEN); // Back (L thumb 3)
-            set_rgb(3, HSV_BLACK); // Sym (L Thumb 4)
-            set_rgb(4, HSV_BLACK); // L Thumb 5
-            set_rgb(24, HSV_BLACK); // Fn
+            set_rgb(4, HSV_BLACK); // nothing (LThumb 5)                 
         }
     }
     return false;
