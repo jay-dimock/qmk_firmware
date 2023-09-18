@@ -163,7 +163,7 @@ bool rgb_matrix_indicators_user(void) {
         set_rgb(34, HSV_BLACK); // Num (R thumb 4)
         set_rgb(3, HSV_BLACK); // Sym (L Thumb 4)
         set_rgb(24, HSV_BLACK); // Fn 
-        set_rgb(32, HSV_GREEN); // TO(0) (R thumb 2)
+        
         switch (get_highest_layer(layer_state)) {
             case _BASE:
                 set_rgb_all(HSV_BLACK);
@@ -174,7 +174,7 @@ bool rgb_matrix_indicators_user(void) {
                 set_rgb(31, HSV_RED); // cut (R thumb 1)
                 set_rgb(1, HSV_WHITE); // Enter (L thumb 2)
                 set_rgb(2, HSV_MAGENTA); // Back/Num (L thumb 3)
-                set_rgb(3, HSV_ORANGE); // L Thumb 4
+                set_rgb(3, HSV_WHITE); // L Thumb 4
                 set_rgb(55, HSV_PURPLE); // caps word
                 set_rgb(6, HSV_GREEN); // L upper thumb
                 set_rgb(37, HSV_GREEN); // R upper thumb
@@ -281,13 +281,15 @@ bool rgb_matrix_indicators_user(void) {
         set_rgb(18, HSV_WHITE); // LCtrl
         set_rgb(43, HSV_WHITE); // Rshift
         set_rgb(49, HSV_WHITE); // RCtrl/'
+        set_rgb(32, HSV_WHITE); // TO(0) (R thumb 2)
         set_rgb(35, HSV_GREEN); // Alt (R thumb 5)
         set_rgb(33, HSV_WHITE); // Space (R thumb 3)
         set_rgb(5, HSV_BLACK); // L encoder
         set_rgb(36, HSV_BLACK); // R encoder
 
         if(get_highest_layer(layer_state) != _BASE) {
-            set_rgb(4, HSV_BLACK); // nothing (LThumb 5)                 
+            set_rgb(4, HSV_BLACK); // nothing (LThumb 5)     
+
         }
     }
     return false;
