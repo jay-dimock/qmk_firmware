@@ -166,7 +166,7 @@ bool rgb_matrix_indicators_user(void) {
         set_rgb(32, HSV_GREEN); // TO(0) (R thumb 2)
         switch (get_highest_layer(layer_state)) {
             case _BASE:
-                set_rgb_all(HSV_BLACK);
+                set_rgb_all(HSV_GREEN);
                 set_rgb(14, HSV_WHITE); // F
                 set_rgb(45, HSV_WHITE); // J
                 set_rgb(24, HSV_TEAL); // Fn
@@ -176,8 +176,6 @@ bool rgb_matrix_indicators_user(void) {
                 set_rgb(2, HSV_MAGENTA); // Back/Num (L thumb 3)
                 set_rgb(3, HSV_ORANGE); // L Thumb 4
                 set_rgb(55, HSV_PURPLE); // caps word
-                set_rgb(6, HSV_GREEN); // L upper thumb
-                set_rgb(37, HSV_GREEN); // R upper thumb
                 break;
             case _SYMBOLS:
                 set_rgb_all(HSV_ORANGE);
@@ -192,8 +190,6 @@ bool rgb_matrix_indicators_user(void) {
                 set_rgb(24, HSV_BLACK); // Fn 
                 set_rgb(1, HSV_WHITE); // Enter (L thumb 2)
                 set_rgb(2, HSV_GREEN); // Back (L thumb 3)
-                set_rgb(6, HSV_ORANGE); // L upper thumb
-                set_rgb(37, HSV_ORANGE); // R upper thumb
                 break;
             case _NUMBERS:
                 set_rgb_all(HSV_ORANGE);
@@ -221,8 +217,6 @@ bool rgb_matrix_indicators_user(void) {
                 set_rgb(24, HSV_BLACK); // Fn 
                 set_rgb(1, HSV_WHITE); // Enter (L thumb 2)
                 set_rgb(2, HSV_GREEN); // Back (L thumb 3)
-                set_rgb(6, HSV_MAGENTA); // L upper thumb
-                set_rgb(37, HSV_MAGENTA); // R upper thumb
                 break;
             case _FKEYS:
                 set_rgb_all(HSV_BLACK);
@@ -240,8 +234,6 @@ bool rgb_matrix_indicators_user(void) {
                 set_rgb(41, HSV_TEAL);; // F6
                 set_rgb(42, HSV_TEAL);; // F12
                 set_rgb(24, HSV_TEAL); // Fn
-                set_rgb(6, HSV_BLACK); // L upper thumb
-                set_rgb(37, HSV_BLACK); // R upper thumb
                 break;
             case _NAV:
                 set_rgb_all(HSV_BLACK);
@@ -255,8 +247,6 @@ bool rgb_matrix_indicators_user(void) {
                 set_rgb(48, HSV_WHITE); // page down
                 set_rgb(0, HSV_MAGENTA); // enter (L thumb 1)
                 set_rgb(31, HSV_MAGENTA); // tab (R thumb 1)  
-                set_rgb(6, HSV_TEAL); // L upper thumb
-                set_rgb(37, HSV_TEAL); // R upper thumb
                 break;
             case _SPECIAL:
                 set_rgb_all(HSV_BLACK);
@@ -268,8 +258,6 @@ bool rgb_matrix_indicators_user(void) {
                 set_rgb(42, HSV_PURPLE); // F12
                 set_rgb(15, HSV_RED); // del
                 set_rgb(55, HSV_PURPLE); // caps lock
-                set_rgb(6, HSV_PURPLE); // L upper thumb
-                set_rgb(37, HSV_PURPLE); // R upper thumb
                 break;
             default:
                 set_rgb_all(HSV_BLACK);
@@ -277,16 +265,18 @@ bool rgb_matrix_indicators_user(void) {
         }
 
         // these are virtually the same on all layers
-        set_rgb(12, HSV_WHITE); // Lshift
+        set_rgb(12, HSV_GREEN); // Lshift
         set_rgb(18, HSV_WHITE); // LCtrl
-        set_rgb(43, HSV_WHITE); // Rshift
+        set_rgb(43, HSV_GREEN); // Rshift
         set_rgb(49, HSV_WHITE); // RCtrl/'
         set_rgb(35, HSV_GREEN); // Alt (R thumb 5)
-        set_rgb(33, HSV_WHITE); // Space (R thumb 3)
+        set_rgb(33, HSV_GREEN); // Space (R thumb 3)
         set_rgb(5, HSV_BLACK); // L encoder
         set_rgb(36, HSV_BLACK); // R encoder
 
         if(get_highest_layer(layer_state) != _BASE) {
+            set_rgb(6, HSV_BLACK); // L upper thumb
+            set_rgb(37, HSV_BLACK); // R upper thumb
             set_rgb(4, HSV_BLACK); // nothing (LThumb 5)                 
         }
     }
